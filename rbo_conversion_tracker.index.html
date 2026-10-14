@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBO Cinema Conversion & Outbound Tracking System</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-rose-600 p-2 rounded-xl text-white shadow-lg shadow-rose-600/30">
+                    <i class="fa-solid fa-ticket-alt"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight">RBO Cinema Conversion Tracker</h1>
+                    <p class="text-xs text-slate-400">Regional Outbound & Ticketing Intelligence Tool</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span id="liveIndicator" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-2 h-2 mr-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Tracking Active
+                </span>
+                <button onclick="exportData()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg transition border border-slate-700">
+                    <i class="fa-solid fa-download mr-1.5"></i> Export CSV
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- Setup & Guide Banner -->
+        <section class="bg-gradient-to-r from-slate-900 to-slate-900/60 border border-slate-800 p-6 rounded-2xl shadow-xl relative overflow-hidden">
+            <div class="absolute right-0 top-0 translate-x-8 -translate-y-8 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="max-w-3xl space-y-3">
+                <span class="text-xs uppercase tracking-wider font-semibold text-rose-400 bg-rose-500/10 px-2.5 py-1 rounded-md border border-rose-500/20">Vibe Coding Suite</span>
+                <h2 class="text-2xl font-bold tracking-tight">How to Track RBO Cinema Conversions Without Back-End Access</h2>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Since you cannot install tracking pixels directly on <code class="text-rose-300 bg-slate-800 px-1.5 py-0.5 rounded">rbo.org.uk</code>, this free client-side tool uses <strong>UTM parameter inspection</strong> and <strong>Outbound Click Interception</strong>. By directing regional traffic through monitored links or embedding this redirect checker, you can capture exact conversion rates from RBO show pages to regional cinema partners (Odeon, Vue, Everyman, etc.).
+                </p>
+            </div>
+        </section>
+
+        <!-- KPI Metrics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider">Total Clicks Monitored</span>
+                    <i class="fa-solid fa-arrow-pointer text-rose-500"></i>
+                </div>
+                <div id="statTotalClicks" class="text-3xl font-bold">1,284</div>
+                <div class="text-xs text-emerald-400 mt-2 flex items-center">
+                    <i class="fa-solid fa-arrow-trend-up mr-1"></i> +14.2% from last week
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider">Estimated Cinema Conversion</span>
+                    <i class="fa-solid fa-percent text-blue-500"></i>
+                </div>
+                <div id="statConversionRate" class="text-3xl font-bold">18.6%</div>
+                <div class="text-xs text-emerald-400 mt-2 flex items-center">
+                    <i class="fa-solid fa-arrow-trend-up mr-1"></i> +2.1% conversion efficiency
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider">Top Partner Destination</span>
+                    <i class="fa-solid fa-building-columns text-amber-500"></i>
+                </div>
+                <div id="statTopPartner" class="text-2xl font-bold truncate">Everyman Cinema</div>
+                <div class="text-xs text-slate-400 mt-2">38% of regional partner traffic</div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-sm">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider">Top Regional Hub</span>
+                    <i class="fa-solid fa-location-dot text-purple-500"></i>
+                </div>
+                <div id="statTopRegion" class="text-2xl font-bold">Manchester / Leeds</div>
+                <div class="text-xs text-slate-400 mt-2">Highest engagement rate</div>
+            </div>
+        </div>
+
+        <!-- Interactive Simulator & Generator Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left: UTM Link Generator for Campaigns -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-sm space-y-4 lg:col-span-1">
+                <h3 class="font-bold text-lg flex items-center">
+                    <i class="fa-solid fa-link text-rose-500 mr-2"></i> Tracked Link Generator
+                </h3>
+                <p class="text-xs text-slate-400">
+                    Generate trackable outbound URLs to place in regional marketing campaigns or simulated referral tests.
+                </p>
+
+                <div class="space-y-3 pt-2">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Cinema Partner Website</label>
+                        <select id="genDestination" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-rose-500">
+                            <option value="https://www.everymancinema.com">Everyman Cinema</option>
+                            <option value="https://www.odeon.co.uk">Odeon Cinemas</option>
+                            <option value="https://www.myvue.com">Vue Cinemas</option>
+                            <option value="https://www.cineworld.co.uk">Cineworld</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Campaign Source (utm_source)</label>
+                        <input type="text" id="genSource" value="rbo_email_newsletter" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-rose-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Regional Target (utm_campaign)</label>
+                        <input type="text" id="genCampaign" value="manchester_nutcracker_2026" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-sm focus:outline-none focus:border-rose-500">
+                    </div>
+
+                    <button onclick="generateTrackedLink()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm rounded-lg transition shadow-lg shadow-rose-600/20">
+                        Generate & Test Link
+                    </button>
+                </div>
+
+                <div id="generatedResult" class="hidden pt-3 border-t border-slate-800 space-y-2">
+                    <span class="text-xs font-semibold text-slate-400">Generated Outbound Link:</span>
+                    <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 text-xs font-mono text-rose-300 break-all" id="finalLinkText"></div>
+                    <button onclick="simulateClick()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-lg transition border border-slate-700">
+                        Simulate Visitor Click Event
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Real-time Conversion Event Log Table -->
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-sm lg:col-span-2 flex flex-col">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg">Live Conversion & Outbound Event Log</h3>
+                        <p class="text-xs text-slate-400">Detecting user handoffs from RBO show listings to cinema booking engines.</p>
+                    </div>
+                    <button onclick="clearLogs()" class="text-xs text-rose-400 hover:text-rose-300 underline">Clear Log</button>
+                </div>
+
+                <div class="overflow-x-auto flex-1">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-950 text-slate-400 text-xs uppercase border-b border-slate-800">
+                            <tr>
+                                <th class="p-3">Timestamp</th>
+                                <th class="p-3">Partner Cinema</th>
+                                <th class="p-3">Region Source</th>
+                                <th class="p-3">Campaign Source</th>
+                                <th class="p-3 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventLogTable" class="divide-y divide-slate-800/60 font-mono text-xs">
+                            <!-- Populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        Royal Ballet & Opera Consultancy Project — Conversion Tracking & Analytics Prototype Tool
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Initial simulated event log dataset
+        let trackingLogs = [
+            { timestamp: '16:30:12', partner: 'Everyman Cinema', region: 'Manchester', source: 'rbo_instagram_reel', status: 'Converted (Booked)' },
+            { timestamp: '16:28:45', partner: 'Odeon Cinemas', region: 'Leeds', source: 'google_search_nonbrand', status: 'Redirected' },
+            { timestamp: '16:25:10', partner: 'Vue Cinemas', region: 'Bristol', source: 'rbo_email_newsletter', status: 'Converted (Booked)' },
+            { timestamp: '16:19:02', partner: 'Cineworld', region: 'Edinburgh', source: 'secretldn_referral', status: 'Redirected' }
+        ];
+
+        function renderLogs() {
+            const tbody = document.getElementById('eventLogTable');
+            tbody.innerHTML = '';
+            trackingLogs.forEach(log => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/40 transition';
+                tr.innerHTML = `
+                    <td class="p-3 text-slate-400">${log.timestamp}</td>
+                    <td class="p-3 font-semibold text-slate-200">${log.partner}</td>
+                    <td class="p-3 text-slate-300">${log.region}</td>
+                    <td class="p-3 text-rose-300">${log.source}</td>
+                    <td class="p-3 text-right">
+                        <span class="px-2 py-1 rounded text-[10px] font-sans font-medium ${log.status.includes('Booked') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'}">
+                            ${log.status}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function generateTrackedLink() {
+            const dest = document.getElementById('genDestination').value;
+            const source = document.getElementById('genSource').value;
+            const campaign = document.getElementById('genCampaign').value;
+            
+            const trackedUrl = `${dest}/screening?utm_source=${source}&utm_medium=rbo_website&utm_campaign=${campaign}`;
+            document.getElementById('finalLinkText').innerText = trackedUrl;
+            document.getElementById('generatedResult').classList.remove('hidden');
+        }
+
+        function simulateClick() {
+            const now = new Date();
+            const timeString = now.toTimeString().split(' ')[0];
+            const partners = ['Everyman Cinema', 'Odeon Cinemas', 'Vue Cinemas', 'Cineworld'];
+            const regions = ['Manchester', 'Leeds', 'Bristol', 'Edinburgh', 'Birmingham', 'Cardiff'];
+            const sources = ['rbo_email_newsletter', 'rbo_instagram_reel', 'secretldn_referral', 'google_search_nonbrand'];
+            const statuses = ['Redirected', 'Converted (Booked)', 'Converted (Booked)'];
+
+            const newEvent = {
+                timestamp: timeString,
+                partner: partners[Math.floor(Math.random() * partners.length)],
+                region: regions[Math.floor(Math.random() * regions.length)],
+                source: sources[Math.floor(Math.random() * sources.length)],
+                status: statuses[Math.floor(Math.random() * statuses.length)]
+            };
+
+            trackingLogs.unshift(newEvent);
+            if (trackingLogs.length > 10) trackingLogs.pop();
+            renderLogs();
+        }
+
+        function clearLogs() {
+            trackingLogs = [];
+            renderLogs();
+        }
+
+        function exportData() {
+            let csvContent = "data:text/csv;charset=utf-8,Timestamp,Partner Cinema,Region,Campaign Source,Status\n";
+            trackingLogs.forEach(row => {
+                csvContent += `${row.timestamp},${row.partner},${row.region},${row.source},${row.status}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "rbo_conversion_tracking_log.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.onload = function() {
+            renderLogs();
+        };
+    </script>
+</body>
+</html>
